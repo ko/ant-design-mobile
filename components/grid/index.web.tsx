@@ -90,7 +90,12 @@ export default class Grid extends React.Component<GridProps, any> {
         pagesArr.push(<div key={`pageitem-${pageIndex}`} className={`${prefixCls}-carousel-page`}>{pageRows}</div>);
       }
     }
+    const carouselProps: any = {};
 
+    if (isCarousel && pageCount > 1 && typeof document !== 'undefined') {
+      // in case carousel image loading cause no width
+      carouselProps.initialSlideWidth = document.documentElement.clientWidth;
+    }
     return (
       <div
         className={classNames({
@@ -99,7 +104,7 @@ export default class Grid extends React.Component<GridProps, any> {
           [className as string]: className,
         })}
       >
-        {isCarousel && pageCount > 1 ? <Carousel>{pagesArr}</Carousel> : rowsArr}
+        {isCarousel && pageCount > 1 ? <Carousel {...carouselProps}>{pagesArr}</Carousel> : rowsArr}
       </div>
     );
   }
